@@ -29,10 +29,13 @@
     <ClCompile Include="Voter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Districting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="District.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Districting.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

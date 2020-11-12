@@ -32,7 +32,7 @@ void District::updateStats() {
 			major_party_code = party.first;
 			major_party_count = party.second;
 		}
-	}
+	} //FIX THIS
 }
 int District::getNumberOfVoters() {
 	return voters.size();
@@ -60,12 +60,4 @@ std::string District::print() {
 			std::cout << "'Weird'" << std::endl;
 		}
 	}
-}
-
-
-int main() {
-
-
-
-	return 0;
 }

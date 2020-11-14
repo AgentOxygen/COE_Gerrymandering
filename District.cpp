@@ -23,7 +23,7 @@ void District::updateStats() {
 
 	// Cycle through parties and compare counts
 	for (auto& party : affiliation_counts) {
-		// If a party with more voters is found
+		// If a party with more voters is found than the majority
 		if (major_party_count < party.second) {
 			// Minor party is second largest party
 			minor_party_code = major_party_code;
@@ -31,8 +31,12 @@ void District::updateStats() {
 			// Major party is the largest party
 			major_party_code = party.first;
 			major_party_count = party.second;
+			// If the party isn't larger than the majority but still larger than the minority
+		} else if (minor_party_count < party.second) {
+			minor_party_code = major_party_code;
+			minor_party_count = major_party_count;
 		}
-	} //FIX THIS
+	}
 }
 int District::getNumberOfVoters() {
 	return voters.size();

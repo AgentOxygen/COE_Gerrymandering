@@ -13,22 +13,23 @@ private:
 	std::vector<Voter> voters;
 	// ================== District statistics ==================
 	// Code for party with most votes
-	int major_party_code = -1;
+	int major_party_code;
 	// Number of voters affiliated with major party
-	int major_party_count = -1;
+	int major_party_count ;
 	// Code for party with second most votes
-	int minor_party_code = -1;
+	int minor_party_code;
 	// Number of voters affiliated with minor party
-	int minor_party_count = -1;
+	int minor_party_count;
 
-	// Updates district statistics 
-	void updateStats();
+
 public:
 	// Create district from a single voter
 	District(Voter voter_);
 	// Create district from collection of voters
 	District(std::vector<Voter> voters_);
-
+	
+	// Updates district statistics 
+	void updateStats();
 	// Returns the number of voters in this district
 	int getNumberOfVoters();
 	// Returns popular affiliation of voters in district

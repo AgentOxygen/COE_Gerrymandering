@@ -32,7 +32,12 @@ void District::updateStats() {
 			major_party_code = party.first;
 			major_party_count = party.second;
 		}
-	} //FIX THIS
+		// If a party with less voters is found
+		else if (minor_party_count < party.second) {
+			minor_party_code = party.first;
+			minor_party_count = party.second;
+		}
+	}
 }
 int District::getNumberOfVoters() {
 	return voters.size();

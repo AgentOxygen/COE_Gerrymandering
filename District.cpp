@@ -2,9 +2,11 @@
 
 District::District(Voter voter_) : major_party_code(voter_.getAffiliationCode()), major_party_count(1) {
 	voters.push_back(voter_);
+	updateStats();
 }
 District::District(std::vector<Voter> voters_) {
 	voters = voters_;
+	updateStats();
 }
 void District::updateStats() {
 	// Map of party (first value) to the number of affiliated voters (second value)
@@ -16,10 +18,10 @@ void District::updateStats() {
 	}
 
 	// Initialize stats
-	major_party_code = -1;
-	major_party_count = -1;
-	minor_party_code = -1;
-	minor_party_count = -1;
+	int major_party_code = VOTER_AFFILIATION_UNDECIDED;
+	int major_party_count = 0;
+	int minor_party_code = VOTER_AFFILIATION_UNDECIDED;
+	int minor_party_count = 0;
 
 	// Cycle through parties and compare counts
 	for (auto& party : affiliation_counts) {
@@ -50,18 +52,20 @@ int District::majority() {
 int District::minority() {
 	return minor_party_count;
 }
-std::string District::print() {
+std::string District::printVoters() {
+	std::stringstream stream;
 	for (auto& voter : voters) {
-		std::cout << "Listing voters..." << std::endl;
-		std::cout << voter.getID() << " leans towards ";
+		stream << "Listing voters..." << std::endl;
+		stream << voter.getID() << " leans towards ";
 		if (voter.affiliatesWithA()) {
-			std::cout << "'Party A'" << std::endl;
+			stream << "'Party A'" << std::endl;
 		} else if (voter.affiliatesWithB()) {
-			std::cout << "'Party B'" << std::endl;
+			stream << "'Party B'" << std::endl;
 		} else if (voter.undecided()) {
-			std::cout << "'Undecided'" << std::endl;
+			stream << "'Undecided'" << std::endl;
 		} else if (voter.weird()){
-			std::cout << "'Weird'" << std::endl;
+			stream << "'Weird'" << std::endl;
 		}
 	}
+	return stream.str();
 }

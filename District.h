@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <map>
 
 class District {
@@ -13,13 +14,13 @@ private:
 	std::vector<Voter> voters;
 	// ================== District statistics ==================
 	// Code for party with most votes
-	int major_party_code = -1;
+	int major_party_code = VOTER_AFFILIATION_UNDECIDED;
 	// Number of voters affiliated with major party
-	int major_party_count = -1;
+	int major_party_count = 0;
 	// Code for party with second most votes
-	int minor_party_code = -1;
+	int minor_party_code = VOTER_AFFILIATION_UNDECIDED;
 	// Number of voters affiliated with minor party
-	int minor_party_count = -1;
+	int minor_party_count = 0;
 
 	// Updates district statistics 
 	void updateStats();
@@ -37,8 +38,8 @@ public:
 	int majority();
 	// Returns minority count
 	int minority();
-	// Outputs data on district for debugging
-	std::string print();
+	// Returns string containing output for voters in this district
+	std::string printVoters();
 
 };
 #endif

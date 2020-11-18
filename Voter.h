@@ -1,9 +1,9 @@
 #ifndef GERRYMANDERING_VOTER
 #define GERRYMANDERING_VOTER
 
-const int VOTER_AFFILIATION_UNDECIDED = 0;
 const int VOTER_AFFILIATION_A = 1;
 const int VOTER_AFFILIATION_B = 2;
+const int VOTER_AFFILIATION_UNDECIDED = 3;
 
 class Voter {
 private:

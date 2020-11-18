@@ -1,22 +1,23 @@
 #ifndef GERRYMANDERING_VOTER
 #define GERRYMANDERING_VOTER
+#include <string>
 
-const int VOTER_AFFILIATION_A = 1;
-const int VOTER_AFFILIATION_B = 2;
-const int VOTER_AFFILIATION_UNDECIDED = 3;
+const std::string VOTER_AFFILIATION_A = "A";
+const std::string VOTER_AFFILIATION_B = "B";
+const std::string VOTER_AFFILIATION_UNDECIDED = "U";
 
 class Voter {
 private:
 	// Voter affiliation definied by one of the constants
-	int affiliation;
+	std::string affiliation;
 	// Voter ID
 	int id;
 public:
-	Voter(int party_affiliation_code, int unique_id);
+	Voter(std::string party_affiliation_code, int unique_id);
 	// Returns ID of voter
 	int getID();
 	// Returns code of party this voter is affiliated with
-	int getAffiliationCode();
+	std::string getAffiliationCode();
 	// Returns whether or not this voter is undecided
 	bool undecided();
 	// Returns whether or not this voter is affiliated with party "B"

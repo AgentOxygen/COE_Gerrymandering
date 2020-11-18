@@ -2,10 +2,9 @@
 #define GERRYMANDERING_DISTRICT
 
 #include "Voter.h"
-#include <iostream>
+#include <sstream>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <map>
 
 class District {
@@ -14,32 +13,38 @@ private:
 	std::vector<Voter> voters;
 	// ================== District statistics ==================
 	// Code for party with most votes
-	int major_party_code = VOTER_AFFILIATION_UNDECIDED;
+	std::string major_party_code = VOTER_AFFILIATION_UNDECIDED;
 	// Number of voters affiliated with major party
-	int major_party_count = 0;
+	unsigned int major_party_count = 0;
 	// Code for party with second most votes
-	int minor_party_code = VOTER_AFFILIATION_UNDECIDED;
+	std::string minor_party_code = VOTER_AFFILIATION_UNDECIDED;
 	// Number of voters affiliated with minor party
-	int minor_party_count = 0;
+	unsigned int minor_party_count = 0;
 
-	// Updates district statistics 
-	void updateStats();
+
 public:
 	// Create district from a single voter
 	District(Voter voter_);
 	// Create district from collection of voters
 	District(std::vector<Voter> voters_);
 
+	// Updates district statistics 
+	void updateStats();
 	// Returns the number of voters in this district
-	int getNumberOfVoters();
+	unsigned int getNumberOfVoters();
 	// Returns popular affiliation of voters in district
-	int lean();
+	std::string lean();
 	// Returns majority count
-	int majority();
+	unsigned int majority();
 	// Returns minority count
-	int minority();
-	// Returns string containing output for voters in this district
-	std::string printVoters();
+	unsigned int minority();
+
+
+	// Returns map of party (first value) to the number of affiliated voters (second value)
+	std::map<std::string, unsigned int> getAffiliationCounts();
+
+	// Outputs data on district for debugging
+	std::string print();
 
 };
 #endif

@@ -20,7 +20,7 @@ private:
 	std::string minor_party_code = VOTER_AFFILIATION_UNDECIDED;
 	// Number of voters affiliated with minor party
 	unsigned int minor_party_count = 0;
-
+	// Map of parties to their respective count
 
 public:
 	// Create district from a single voter

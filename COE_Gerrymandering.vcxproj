@@ -141,12 +141,14 @@
   <ItemGroup>
     <ClInclude Include="District.h" />
     <ClInclude Include="Districting.h" />
+    <ClInclude Include="PopulationCell.h" />
     <ClInclude Include="Voter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="District.cpp" />
     <ClCompile Include="Districting.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PopulationCell.cpp" />
     <ClCompile Include="Voter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

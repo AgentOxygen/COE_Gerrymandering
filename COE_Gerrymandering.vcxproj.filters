@@ -24,6 +24,9 @@
     <ClInclude Include="Districting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PopulationCell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Voter.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopulationCell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

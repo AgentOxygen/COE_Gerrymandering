@@ -1,12 +1,6 @@
 #include "PopulationCell.h"
-#include <iostream>
 
-PopulationCell::PopulationCell(unsigned int size, std::string major_party, std::vector<std::string> all_parties, int& latest_ID) {
-	
-	// Create vector will all parties in it
-	std::vector<std::string> parties = all_parties;
-	parties.push_back(major_party);
-
+PopulationCell::PopulationCell(unsigned int size, std::vector<std::string> parties, int& latest_ID) {
 	// Add other voters randomly
 	for (int index = 0; voters.size() <= size; index++) {
 		latest_ID++;
@@ -32,31 +26,37 @@ void PopulationCell::updateStats() {
 	}
 
 	// Initialize stats
-	major_party_code = VOTER_AFFILIATION_UNDECIDED;
-	major_party_count = 0;
-	minor_party_code = VOTER_AFFILIATION_UNDECIDED;
-	minor_party_count = 0;
+	first_party_code = VOTER_AFFILIATION_UNDECIDED;
+	first_party_count = 0;
+	second_party_code = VOTER_AFFILIATION_UNDECIDED;
+	second_party_count = 0;
 
 	// Cycle through parties and compare counts
 	for (auto& party : affiliation_counts) {
 		// If a party with more voters is found
-		if (major_party_count < party.second) {
+		if (first_party_count < party.second) {
 			// Minor party is second largest party
-			minor_party_code = major_party_code;
-			minor_party_count = major_party_count;
+			second_party_code = first_party_code;
+			second_party_count = first_party_count;
 			// Major party is the largest party
-			major_party_code = party.first;
-			major_party_count = party.second;
+			first_party_code = party.first;
+			first_party_count = party.second;
 		}
 		// If a party with less voters is found
-		else if (minor_party_count < party.second) {
-			minor_party_code = party.first;
-			minor_party_count = party.second;
+		else if (second_party_count < party.second) {
+			second_party_code = party.first;
+			second_party_count = party.second;
 		}
 	}
 }
 std::string PopulationCell::lean() {
-	return major_party_code;
+	return first_party_code;
+}
+std::string PopulationCell::getSecondPartyCode() {
+	return second_party_code;
+}
+unsigned int PopulationCell::getSecondPartyCount() {
+	return second_party_count;
 }
 bool PopulationCell::addVoter(Voter voter_to_add) {
 
@@ -85,4 +85,56 @@ bool PopulationCell::removeVoterByID(int id) {
 		index++;
 	}
 	return false;
+}
+
+void outputPopulationCells(std::vector<PopulationCell>& population, unsigned int width, unsigned int height, std::string path) {
+	std::ofstream pfile(path + "party_output.txt");
+	if (pfile.is_open()) {
+		for (unsigned int i = 0; i < height; i++) {
+			for (unsigned int j = 0; j < width; j++) {
+				unsigned int loc = i * width + j;
+				pfile << int(population[loc].lean()[0]);
+				if(j != width -1) pfile << " ";
+			}
+			pfile << "\n";
+		}
+		pfile.close();
+	}
+}
+
+// Generates and returns an initialized population grid
+std::vector<PopulationCell> genPopGrid(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, std::string rand_majority) {
+	// Create 2D grid of population cells
+	std::vector<PopulationCell> grid;
+
+	int latest_ID = 0;
+
+	std::srand(time(NULL));
+
+	// Initialize grid
+	for (unsigned int row = 0; row < num_rows; row++) {
+		for (unsigned int col = 0; col < num_cols; col++) {
+
+			std::string major = parties[std::rand() % parties.size()];
+
+			if (rand_majority != "") {
+				major = rand_majority;
+			}
+
+			PopulationCell cell(std::rand() % max_population, parties, latest_ID);
+
+			grid.push_back(cell);
+		}
+	}
+	return grid;
+}
+// Output population grid to console
+void printPopulationGrid(std::vector<PopulationCell> grid, unsigned int row, unsigned int col) {
+	for (unsigned int i = 0; i < row; i++) {
+		for (unsigned int j = 0; j < col; j++) {
+			unsigned int loc = i * col + j;
+			std::cout << std::setw(3) << grid[loc].lean() << " ";
+		}
+		std::cout << std::endl;
+	}
 }

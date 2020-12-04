@@ -2,9 +2,9 @@
 #define GERRYMANDERING_VOTER
 #include <string>
 
+const std::string VOTER_AFFILIATION_UNDECIDED = "U";
 const std::string VOTER_AFFILIATION_A = "A";
 const std::string VOTER_AFFILIATION_B = "B";
-const std::string VOTER_AFFILIATION_UNDECIDED = "U";
 
 class Voter {
 private:

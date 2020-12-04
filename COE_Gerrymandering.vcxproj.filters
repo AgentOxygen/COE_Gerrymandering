@@ -21,18 +21,15 @@
     <ClInclude Include="District.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Districting.h">
+    <ClInclude Include="PopulationCell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PopulationCell.h">
+    <ClInclude Include="Districting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Voter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Districting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="District.cpp">
@@ -42,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PopulationCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Districting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

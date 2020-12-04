@@ -78,3 +78,30 @@ std::string District::print() {
 	}
 	return stream.str();
 }
+// Creates two-party district with specified distribution
+District createDistrict(std::string major_party_code, unsigned int major_party_count, std::string minor_party_code, unsigned int minor_party_count) {
+	// Keep track of next voter ID
+	int next_unique_id = 1;
+	// Create vector to store voters in
+	std::vector<Voter> voters;
+	// Reserve memory
+	voters.reserve(major_party_count + minor_party_count);
+
+	// Add major party voters
+	for (unsigned int index = 0; index < major_party_count; index++) {
+		Voter voter(major_party_code, next_unique_id);
+		next_unique_id++;
+		voters.push_back(voter);
+	}
+
+	// Add minor party voters
+	for (unsigned int index = 0; index < minor_party_count; index++) {
+		Voter voter(minor_party_code, next_unique_id);
+		next_unique_id++;
+		voters.push_back(voter);
+	}
+
+	// Return filled-district
+	District ret(voters);
+	return ret;
+}

@@ -51,5 +51,7 @@ public:
 	std::string print();
 
 };
+
+District createDistrict(std::string major_party_code, unsigned int major_party_count, std::string minor_party_code, unsigned int minor_party_count);
 #endif
 

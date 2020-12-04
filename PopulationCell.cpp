@@ -90,11 +90,11 @@ bool PopulationCell::removeVoterByID(int id) {
 void outputPopulationCells(std::vector<PopulationCell>& population, unsigned int width, unsigned int height, std::string path) {
 	std::ofstream pfile(path + "party_output.txt");
 	if (pfile.is_open()) {
-		for (unsigned int i = 0; i < height; i++) {
-			for (unsigned int j = 0; j < width; j++) {
-				unsigned int loc = i * width + j;
-				pfile << int(population[loc].lean()[0]);
-				if(j != width -1) pfile << " ";
+		for (unsigned int i = 0; i < width; i++) {
+			for (unsigned int j = 0; j < height; j++) {
+				unsigned int loc = j * (width) + i;
+				pfile << int(population[loc].lean()[0]) - 65;
+				if(j != height - 1) pfile << " ";
 			}
 			pfile << "\n";
 		}

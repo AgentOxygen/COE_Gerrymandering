@@ -14,6 +14,8 @@ int main() {
 
 	Districting leanAlgorithm(pop, num_rows, num_cols);
 	Districting targetAlgorithm(pop, num_rows, num_cols, 1, "T");
+	std::cout << "=== Population Lean ===" << std::endl;
+	printPopulationLean(pop, num_rows, num_cols);
 	std::cout << "=== Population Density ===" << std::endl;
 	printPopulationDensity(pop, num_rows, num_cols);
 	std::cout << "=== Population Index ====" << std::endl;

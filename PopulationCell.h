@@ -51,8 +51,8 @@ public:
 // Generates population grid
 void outputPopulationGridLean(std::vector<PopulationCell>& population, unsigned int num_rows, unsigned int num_cols, std::string path = "", std::string suffix = "");
 void outputPopulationGridSize(std::vector<PopulationCell>& population, unsigned int num_rows, unsigned int num_cols, std::string path = "", std::string suffix = "");
-std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties);
-std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, double density = 0.7);
+std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, unsigned int seed = time(0));
+std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, unsigned int seed = time(0), double density = 0.7);
 // Outputs population cell leans to the console
 void printPopulationLean(std::vector<PopulationCell> grid, unsigned int num_rows, unsigned int num_cols);
 void printPopulationIndex(std::vector<PopulationCell> grid, unsigned int num_rows, unsigned int num_cols);

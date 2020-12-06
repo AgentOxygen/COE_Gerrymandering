@@ -83,15 +83,18 @@ void outputPopulationGridSize(std::vector<PopulationCell>& population, unsigned 
 	}
 }
 // Generates and returns an initialized population grid with a uniform distribution
-std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties) {
+std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, unsigned int seed) {
 	// Create 2D grid of population cells
 	std::vector<PopulationCell> grid;
 
 	int latest_ID = 0;
 
-	std::srand((unsigned) time(0));
+	seed = (unsigned)time(0);
+
+	std::srand(seed);
 
 	std::cout << "Creating Max Pop (" << max_population << ") Uniform Population" << std::endl;
+	std::cout << "Seed: " << seed << std::endl;
 
 	// Initialize grid
 	for (unsigned int col = 0; col < num_cols; col++) {
@@ -105,13 +108,15 @@ std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population,
 	return grid;
 }
 // Generates and returns an initialized population grid with a centered distribution
-std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, double density) {
+std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, unsigned int seed, double density) {
 	// Create 2D grid of population cells
 	std::vector<PopulationCell> grid;
 
 	int latest_ID = 0;
 
-	std::srand((unsigned)time(0));
+	seed = (unsigned)time(0);
+
+	std::srand(seed);
 
 	int center_x = rand() % num_cols;
 	int center_y = rand() % num_rows;
@@ -126,6 +131,7 @@ std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, u
 	}
 
 	std::cout << "Creating a Max Pop(" << max_population << ") Urban-Centered Population at (" << center_x + 1 << ", " << center_y + 1 << ") with a density of " << density << std::endl;
+	std::cout << "Seed: " << seed << std::endl;
 	// Initialize grid
 	for (unsigned int y = 0; y < num_rows; y++) {
 		for (unsigned int x = 0; x < num_cols; x++) {

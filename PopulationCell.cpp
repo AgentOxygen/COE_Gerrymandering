@@ -89,8 +89,6 @@ std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population,
 
 	int latest_ID = 0;
 
-	seed = (unsigned)time(0);
-
 	std::srand(seed);
 
 	std::cout << "Creating Max Pop (" << max_population << ") Uniform Population" << std::endl;
@@ -113,8 +111,6 @@ std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, u
 	std::vector<PopulationCell> grid;
 
 	int latest_ID = 0;
-
-	seed = (unsigned)time(0);
 
 	std::srand(seed);
 

@@ -10,7 +10,7 @@ int main() {
 	unsigned int max_population = 10000;
 	std::vector<std::string> parties = {"R", "D", "T"};
 
-	std::vector<PopulationCell> pop  = genPopGridUrbanCenter(max_population, num_rows, num_cols, parties);
+	std::vector<PopulationCell> pop  = genPopGridUrbanCenter(max_population, num_rows, num_cols, parties, 1);
 
 	Districting leanAlgorithm(pop, num_rows, num_cols);
 	Districting targetAlgorithm(pop, num_rows, num_cols, 1, "T");
@@ -27,7 +27,8 @@ int main() {
 	std::cout << std::endl;
 
 	outputPopulationGridSize(pop, num_rows, num_cols);
-	leanAlgorithm.outputDistricting();
+	leanAlgorithm.outputDistricting("lean");
+	targetAlgorithm.outputDistricting("target");
 
 	std::cout << "====== Lean Algorithm ======" << std::endl;
 	std::cout << "Results: " << std::endl;

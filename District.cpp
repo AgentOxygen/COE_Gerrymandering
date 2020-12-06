@@ -9,10 +9,6 @@ District::District(std::vector<Voter> voters_) {
 	updateStats();
 }
 void District::updateStats() {
-
-	// Count all the votes for each party affiliation
-	updateAffiliationCounts();
-
 	// Initialize stats
 	first_party_code = VOTER_AFFILIATION_UNDECIDED;
 	first_party_count = 0;
@@ -33,7 +29,7 @@ void District::updateStats() {
 		// If a party with less voters is found
 		else if (second_party_count < party.second) {
 			second_party_code = party.first;
-			first_party_count = party.second;
+			second_party_count = party.second;
 		}
 	}
 }
@@ -58,6 +54,7 @@ void District::updateAffiliationCounts() {
 	}
 }
 std::map<std::string, unsigned int> District::getAffiliationCounts() {
+	updateAffiliationCounts();
 	return affiliation_counts;
 }
 std::string District::print() {
@@ -78,30 +75,6 @@ std::string District::print() {
 	}
 	return stream.str();
 }
-// Creates two-party district with specified distribution
-District createDistrict(std::string major_party_code, unsigned int major_party_count, std::string minor_party_code, unsigned int minor_party_count) {
-	// Keep track of next voter ID
-	int next_unique_id = 1;
-	// Create vector to store voters in
-	std::vector<Voter> voters;
-	// Reserve memory
-	voters.reserve(major_party_count + minor_party_count);
-
-	// Add major party voters
-	for (unsigned int index = 0; index < major_party_count; index++) {
-		Voter voter(major_party_code, next_unique_id);
-		next_unique_id++;
-		voters.push_back(voter);
-	}
-
-	// Add minor party voters
-	for (unsigned int index = 0; index < minor_party_count; index++) {
-		Voter voter(minor_party_code, next_unique_id);
-		next_unique_id++;
-		voters.push_back(voter);
-	}
-
-	// Return filled-district
-	District ret(voters);
-	return ret;
+std::vector<Voter> District::getVoters() {
+	return voters;
 }

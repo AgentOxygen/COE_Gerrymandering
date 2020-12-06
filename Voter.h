@@ -1,6 +1,7 @@
 #ifndef GERRYMANDERING_VOTER
 #define GERRYMANDERING_VOTER
 #include <string>
+#include <vector>
 
 const std::string VOTER_AFFILIATION_UNDECIDED = "U";
 const std::string VOTER_AFFILIATION_A = "A";

@@ -1,58 +1,65 @@
 #ifndef GERRYMANDERING_POPULATION
 #define GERRYMANDERING_POPULATION
-#include <vector>
-#include <map>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <fstream>
-#include "Voter.h"
 #include <iostream>
 #include <iomanip>
+#include <memory>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include "District.h"
 
 class PopulationCell {
 private:
-	// Voters in this population cell
-	std::vector<Voter> voters;
+	// ==== Population Cell Stats ====
 	// Number of votes for each party
 	std::map<std::string, unsigned int> counts;
-	// Code for party with most votes
-	std::string first_party_code = VOTER_AFFILIATION_UNDECIDED;
-	// Number of voters affiliated with major party
-	unsigned int first_party_count = 0;
-	// Code for party with second most votes
-	std::string second_party_code = VOTER_AFFILIATION_UNDECIDED;
-	// Number of voters affiliated with minor party
-	unsigned int second_party_count = 0;
+	// Party with most votes for this cell
+	std::string lean = "";
+	// Number of voters in this cell
+	unsigned int size = 0;
+	// Vector of voters in this cell
+	std::vector<Voter> voters;
 
+	PopulationCell* next = { nullptr };
+	PopulationCell* prior = { nullptr };
+
+	void changeUpstream(unsigned int index);
+	PopulationCell* getHead();
+
+	void updateStats(std::vector<Voter>& voters);
 public:
 	// Generates population cell with "size" number of random voters using specified parties distribution (randomly selects from "parties" vector)
 	// "latest_id" refers to the last ID used to create a voter. This insures that no duplicate voters are created with the same ID across the entire project
 	PopulationCell(unsigned int size, std::vector<std::string> parties, int& latest_ID);
 	// Creates population cell from specified initial voters
-	PopulationCell(std::vector<Voter> initial_voters);
-
-	// Updates population statistics
-	void updateStats();
-
+	PopulationCell(std::vector<Voter>& initial_voters);
 	// Returns lean of this population cell
-	std::string lean();
-	// Returns code of second most popular party
-	std::string getSecondPartyCode();
-	// Returns number of votes for second most popular party
-	unsigned int getSecondPartyCount();
+	std::string getLean();
+	// Returns the number of votes for each party
+	std::map<std::string, unsigned int> getCounts();
+	// Returns number of voters in this cell
+	unsigned int getSize();
+	// Returns vector of voters in this cell
+	std::vector<Voter> getVoters();
 
-	// Adds specified voter and returns whether or not it was successful in doing so (Voters cannot have same ID)
-	bool addVoter(Voter voter_to_add);
-	// Removes voter by ID and returns whether or not it was successful in doing so (can't remove Voter if one with specified ID doesn't exist)
-	bool removeVoterByID(int id);
+	void linkPopulationCell(PopulationCell* population_cell);
+
+
+	unsigned int grid_index;
+	unsigned int district_index;
 };
-
-
-// Outputs population cells to a text file
-void outputPopulationCells(std::vector<PopulationCell>& population, unsigned int width, unsigned int height, std::string path = "");
 // Generates population grid
-std::vector<PopulationCell> genPopGrid(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, std::string rand_majority = "");
-// Outputs population cells to the console
-void printPopulationGrid(std::vector<PopulationCell> grid, unsigned int row, unsigned int col);
+void outputPopulationGridLean(std::vector<PopulationCell>& population, unsigned int num_rows, unsigned int num_cols, std::string path = "", std::string suffix = "");
+void outputPopulationGridSize(std::vector<PopulationCell>& population, unsigned int num_rows, unsigned int num_cols, std::string path = "", std::string suffix = "");
+std::vector<PopulationCell> genPopGridUniformRandom(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties);
+std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, unsigned int num_rows, unsigned int num_cols, std::vector<std::string> parties, double density = 0.7);
+// Outputs population cell leans to the console
+void printPopulationLean(std::vector<PopulationCell> grid, unsigned int num_rows, unsigned int num_cols);
+void printPopulationIndex(std::vector<PopulationCell> grid, unsigned int num_rows, unsigned int num_cols);
+void printPopulationDensity(std::vector<PopulationCell> grid, unsigned int num_rows, unsigned int num_cols);
+// Count number of voters in vector of population cells
+unsigned int getPopulationSize(std::vector<PopulationCell>& population);
+// Counts the number of votes for each party for the entire vector of population cells
+std::map<std::string, unsigned int> getPopularAffiliationCounts(std::vector<PopulationCell>& population);
+
 #endif

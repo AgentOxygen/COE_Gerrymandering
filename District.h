@@ -43,15 +43,13 @@ public:
 	unsigned int firstPartyCount();
 	// Returns minority count
 	unsigned int secondPartyCount();
+	// Returns vector of voters in this district
+	std::vector<Voter> getVoters();
 
 	// Returns map of party (first value) to the number of affiliated voters (second value)
 	std::map<std::string, unsigned int> getAffiliationCounts();
-
 	// Outputs data on district for debugging
 	std::string print();
-
 };
-
-District createDistrict(std::string major_party_code, unsigned int major_party_count, std::string minor_party_code, unsigned int minor_party_count);
 #endif
 

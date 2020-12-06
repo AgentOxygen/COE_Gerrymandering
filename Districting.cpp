@@ -1,116 +1,167 @@
 #include "Districting.h"
 
-Districting::Districting(std::vector<PopulationCell> population, unsigned int width, unsigned int height, 
-	int algorithm, std::string args) : pop_grid_width(width), pop_grid_height(height) {
+Districting::Districting(std::vector<PopulationCell> population, unsigned int num_rows, unsigned int num_cols,
+	int algorithm, std::string args) : pop_num_cols(num_cols), pop_num_rows(num_rows) {
+
+	// Initialize population cells
+	for (unsigned int index = 0; index < population.size(); index++) population[index].grid_index = index;
 
 	switch (algorithm) {
 	default:
 		districtLean(population);
 		break;
 	case 1:
-		districtMajority(population, args);
-		break;
-	case 2:
 		districtTarget(population, args);
 		break;
 	}
-
+	// Load districts from this population
+	loadDistricts(population);
+	// Log indicies into a map
+	for (unsigned int y = 0; y < pop_num_rows; y++) {
+		for (unsigned int x = 0; x < pop_num_cols; x++) {
+			unsigned int index = y * pop_num_cols + x;
+			population_to_district[index] = population[index].district_index;
+		}
+	}
+}
+void Districting::loadDistricts(std::vector<PopulationCell>& population) {
+	std::map<unsigned int, std::vector<Voter>> district_voters;
+	// Collect voters
+	for (auto& cell : population) {
+		std::vector<Voter> voters;
+		for (auto& voter : district_voters[cell.district_index]) voters.push_back(voter);
+		for (auto& voter : cell.getVoters()) voters.push_back(voter);
+		district_voters[cell.district_index] = voters;
+	}
+	// Create districts
+	for (auto& voting_pool : district_voters) districts.push_back(District(voting_pool.second));
+	// Count district and popular votes
+	countVotes();
+}
+void Districting::countVotes() {
+	for (auto& district : districts) {
+		party_district_counts[district.lean()] += 1;
+		for (auto& party_voter_count : district.getAffiliationCounts()) {
+			party_voter_counts[party_voter_count.first] += party_voter_count.second;
+			num_of_voters += party_voter_count.second;
+		}
+	}
+}
+unsigned int Districting::getNumOfVoters() {
+	return num_of_voters;
+}
+std::map<std::string, unsigned int> Districting::getPopularCounts() {
+	return party_voter_counts;
+}
+std::map<std::string, unsigned int> Districting::getPartyCounts() {
+	return party_district_counts;
 }
 void Districting::districtLean(std::vector<PopulationCell>& population) {
-	unsigned int index = 0;
-	
-	// Initialize districting IDs
-	for (auto& cell : population) {
-		districting_id.push_back(index);
-		index++;
-	}
+	unsigned int next_district_index = 1;
 
-	for (index = 0; index < population.size(); index++) {
-		PopulationCell cell = population[index];
-		unsigned int x = index % pop_grid_width;
-		unsigned int y = std::floor(index / pop_grid_width);
+	for (unsigned int y = 0; y < pop_num_rows; y++) {
+		for (unsigned int x = 0; x < pop_num_cols; x++) {
+			unsigned int index = y * pop_num_cols + x;
+			std::string this_lean = population[index].getLean();
 
-		// Check right neighbor
-		if (x < pop_grid_width - 1) {
-			if (population[y * pop_grid_width + x + 1].lean() == cell.lean()
-				&& districting_id[index] != districting_id[y * pop_grid_width + x + 1]) {
-				districting_id[y * pop_grid_width + x + 1] = districting_id[index];
-			}
-		}
-	}
+			// Whether or not to create a new district for this cell
+			bool new_district = true;
 
-	for (index = 0; index < population.size(); index++) {
-		PopulationCell cell = population[index];
-		unsigned int x = index % pop_grid_width;
-		unsigned int y = std::floor(index / pop_grid_width);
+			// Check the population cell above this cell in the grid
+			if (y > 0) {
+				unsigned int top_index = ((y - 1) * pop_num_cols) + x;
+				if (this_lean == population[top_index].getLean()) {
+					population[index].linkPopulationCell(&population[top_index]);
 
-		// Check top neighbor
-		if (y > 0) {
-			if (population[(y - 1) * pop_grid_width + x].lean() == cell.lean()
-				&& districting_id[index] != districting_id[(y - 1) * pop_grid_width + x]) {
-				if (districting_id[index] > districting_id[(y - 1) * pop_grid_width + x]) {
-					unsigned int id_to_look_for = districting_id[index];
-					for (auto& cell : districting_id) {
-						if (cell == id_to_look_for) {
-							cell = districting_id[(y - 1) * pop_grid_width + x];
-						}
-					}
+					new_district = false;
 				}
+			}
+			// Check the population cell to the right of this cell in the grid
+			if (x > 0) {
+				unsigned int left_index = (y * pop_num_cols) + (x - 1);
+				if (population[left_index].getLean() == this_lean && population[index].district_index != population[left_index].district_index) {
+					population[index].linkPopulationCell(&population[left_index]);
 
+					new_district = false;
+				}
+			}
+			if (new_district) {
+				population[index].district_index = next_district_index;
+				next_district_index++;
 			}
 		}
 	}
-
-	// Reduce the IDs from larger number to smallest possible positive numbers
-	reduceIDs();
-}
-void Districting::districtMajority(std::vector<PopulationCell>& population, std::string run_off) {
-
 }
 void Districting::districtTarget(std::vector<PopulationCell>& population, std::string target_party) {
+	unsigned int next_district_index = 1;
 
-}
-void Districting::reduceIDs() {
-	std::map<unsigned int, unsigned int> indicies;
-	unsigned int next_id = 1;
-	// Get remaining indicies
-	for (auto& index : districting_id) {
-		if (indicies[index] == 0) {
-			indicies[index] = next_id;
-			next_id++;
+	for (unsigned int y = 0; y < pop_num_rows; y++) {
+		for (unsigned int x = 0; x < pop_num_cols; x++) {
+			unsigned int index = y * pop_num_cols + x;
+			std::string this_lean = population[index].getLean();
+
+			// Whether or not to create a new district for this cell
+			bool new_district = true;
+
+			// Check the population cell above this cell in the grid
+			if (y > 0) {
+				unsigned int top_index = ((y - 1) * pop_num_cols) + x;
+				if (this_lean != target_party && this_lean == population[top_index].getLean()) {
+					population[index].linkPopulationCell(&population[top_index]);
+
+					new_district = false;
+				}
+			}
+			// Check the population cell to the right of this cell in the grid
+			if (x > 0) {
+				unsigned int left_index = (y * pop_num_cols) + (x - 1);
+				if (this_lean != target_party && population[left_index].getLean() == this_lean && population[index].district_index != population[left_index].district_index) {
+					population[index].linkPopulationCell(&population[left_index]);
+
+					new_district = false;
+				}
+			}
+			if (new_district) {
+				population[index].district_index = next_district_index;
+				next_district_index++;
+			}
 		}
-	}
-	// Replace the indicies with the correct IDs
-	for (auto& index : districting_id) {
-		index = indicies[index];
 	}
 }
 std::vector<District> Districting::getDistricts() {
 	return districts;
 }
 std::vector<unsigned int> Districting::getDistricting() {
-	return districting_id;
+	std::vector<unsigned int> districting_indicies;
+	for (auto& pop_dis : population_to_district) {
+		districting_indicies.push_back(0);
+	}
+	for (auto& pop_dis : population_to_district) {
+		districting_indicies[pop_dis.first] = pop_dis.second;
+	}
+
+	return districting_indicies;
 }
 void Districting::outputDistricting(std::string path) {
 	std::ofstream dfile(path + "districting_output.txt");
 	if (dfile.is_open()) {
-		for (unsigned int i = 0; i < pop_grid_width; i++) {
-			for (unsigned int j = 0; j < pop_grid_height; j++) {
-				unsigned int loc = j * pop_grid_width + i;
-				dfile << districting_id[loc];
-				if (j != pop_grid_height - 1) dfile << " ";
+		std::vector<unsigned int> districting_indicies = getDistricting();
+		for (unsigned int y = 0; y < pop_num_rows; y++) {
+			for (unsigned int x = 0; x < pop_num_cols; x++) {
+				unsigned int loc = y * pop_num_cols + x;
+				dfile << districting_indicies[loc];
+				if (x != pop_num_cols - 1) dfile << " ";
 			}
 			dfile << "\n";
 		}
 		dfile.close();
 	}
 }
-
-void printDistrictIDGrid(std::vector<unsigned int> grid, unsigned int row, unsigned int col) {
-	for (unsigned int i = 0; i < row; i++) {
-		for (unsigned int j = 0; j < col; j++) {
-			unsigned int loc = i * col + j;
-			std::cout << std::setw(3) << grid[loc] << " ";
+void printDistrictIDGrid(std::vector<unsigned int> grid, unsigned int num_rows, unsigned int num_cols) {
+	for (unsigned int y = 0; y < num_rows; y++) {
+		for (unsigned int x = 0; x < num_cols; x++) {
+			unsigned int loc = y * num_cols + x;
+			std::cout << std::setw(5) << grid[loc] << " ";
 		}
 		std::cout << std::endl;
 	}

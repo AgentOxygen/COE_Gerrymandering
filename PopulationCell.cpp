@@ -136,7 +136,7 @@ std::vector<PopulationCell> genPopGridUrbanCenter(unsigned int max_population, u
 			double dy = std::abs(center_y - int(y));
 
 			// Calculate percentage, indicative of how close this cell is to the urban center cell
-			double cell_pop_percentage = 1 - ((dx + dy) / (max_dx + max_dy + 1));
+			double cell_pop_percentage = 1 - (std::pow((dx*dx + dy*dy), 0.5) / (std::pow((max_dx* max_dx + max_dy* max_dy + 1), 0.5)));
 
 			// Calculate the max size of the cell
 			double max_cell_pop = cell_pop_percentage * max_population;

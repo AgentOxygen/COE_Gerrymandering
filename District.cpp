@@ -57,24 +57,6 @@ std::map<std::string, unsigned int> District::getAffiliationCounts() {
 	updateAffiliationCounts();
 	return affiliation_counts;
 }
-std::string District::print() {
-	std::stringstream stream;
-	for (auto& voter : voters) {
-		stream << "==== Data for District " << ID << " ====" << std::endl;
-		stream << "Listing voters..." << std::endl;
-		stream << voter.getID() << " leans towards ";
-		if (voter.affiliatesWithA()) {
-			stream << "'Party A'" << std::endl;
-		} else if (voter.affiliatesWithB()) {
-			stream << "'Party B'" << std::endl;
-		} else if (voter.undecided()) {
-			stream << "'Undecided'" << std::endl;
-		} else if (voter.weird()){
-			stream << "'Weird'" << std::endl;
-		}
-	}
-	return stream.str();
-}
 std::vector<Voter> District::getVoters() {
 	return voters;
 }

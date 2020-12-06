@@ -19,13 +19,5 @@ public:
 	int getID();
 	// Returns code of party this voter is affiliated with
 	std::string getAffiliationCode();
-	// Returns whether or not this voter is undecided
-	bool undecided();
-	// Returns whether or not this voter is affiliated with party "B"
-	bool affiliatesWithB();
-	// Returns whether or not this voter is affiliated with party "A"
-	bool affiliatesWithA();
-	// Returns whether or not this voter is weird (doesn't have appropriate affiliation)
-	bool weird();
 };
 #endif

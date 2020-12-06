@@ -48,8 +48,6 @@ public:
 
 	// Returns map of party (first value) to the number of affiliated voters (second value)
 	std::map<std::string, unsigned int> getAffiliationCounts();
-	// Outputs data on district for debugging
-	std::string print();
 };
 #endif
 

@@ -166,3 +166,10 @@ void printDistrictIDGrid(std::vector<unsigned int> grid, unsigned int num_rows, 
 		std::cout << std::endl;
 	}
 }
+void printAlgorithmResults(Districting districting_algorithm) {
+	std::cout << "Results: " << std::endl;
+	for (auto& party : districting_algorithm.getPartyCounts()) std::cout << party.first << ": " << party.second << " | ";
+	std::cout << "Total: " << districting_algorithm.getDistricts().size() << std::endl;
+	for (auto& party : districting_algorithm.getPopularCounts()) std::cout << party.first << ": " << party.second << " | ";
+	std::cout << "Total: " << districting_algorithm.getNumOfVoters() << std::endl;
+}

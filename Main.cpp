@@ -8,9 +8,9 @@ int main() {
 	unsigned int num_rows = 10;
 	unsigned int num_cols = 10;
 	unsigned int max_population = 10000;
-	std::vector<std::string> parties = {"R", "D", "T"};
+	std::vector<std::string> parties = { "R", "D", "T" };
 
-	std::vector<PopulationCell> pop  = genPopGridUrbanCenter(max_population, num_rows, num_cols, parties, 1);
+	std::vector<PopulationCell> pop = genPopGridUrbanCenter(max_population, num_rows, num_cols, parties, 1);
 
 	Districting leanAlgorithm(pop, num_rows, num_cols);
 	Districting targetAlgorithm(pop, num_rows, num_cols, 1, "T");
@@ -31,18 +31,12 @@ int main() {
 	targetAlgorithm.outputDistricting("target");
 
 	std::cout << "====== Lean Algorithm ======" << std::endl;
-	std::cout << "Results: " << std::endl;
-	for (auto& party : leanAlgorithm.getPartyCounts()) std::cout << party.first << ": " << party.second << " | ";
-	std::cout << "Total: " << leanAlgorithm.getDistricts().size() << std::endl;
-	for (auto& party : leanAlgorithm.getPopularCounts()) std::cout << party.first << ": " << party.second << " | ";
-	std::cout << "Total: " << leanAlgorithm.getNumOfVoters() << std::endl;
+	printAlgorithmResults(leanAlgorithm);
 
 	std::cout << "====== Target Algorithm ======" << std::endl;
-	std::cout << "Results: " << std::endl;
-	for (auto& party : targetAlgorithm.getPartyCounts()) std::cout << party.first << ": " << party.second << " | ";
-	std::cout << "Total: " << targetAlgorithm.getDistricts().size() << std::endl;
-	for (auto& party : targetAlgorithm.getPopularCounts()) std::cout << party.first << ": " << party.second << " | ";
-	std::cout << "Total: " << targetAlgorithm.getNumOfVoters() << std::endl;
+	printAlgorithmResults(targetAlgorithm);
+
+
 
 	return 0;
 }

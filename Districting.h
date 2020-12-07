@@ -1,13 +1,13 @@
 #ifndef GERRYMANDERING_DISTRICTING
 #define GERRYMANDERING_DISTRICTING
 
-#include "District.h"
 #include "PopulationCell.h"
 
 class Districting {
 private:
-
+	// Number of columns in the population cell grid
 	unsigned int pop_num_cols;
+	// Number of rows in the population cell grid
 	unsigned int pop_num_rows;
 
 	// All districts in this districting
@@ -25,18 +25,20 @@ private:
 	void loadDistricts(std::vector<PopulationCell>& population);
 	// Count the number of district and popular votes for each party
 	void countVotes();
-	// Runs "lean" algorithm
+	// Runs "lean" districting algorithm
 	void districtLean(std::vector<PopulationCell>& population);
-	// Runs "targeting" algorithm
+	// Runs "targeting" districting algorithm
 	void districtTarget(std::vector<PopulationCell>& population, std::string target_party);
 
 public:
-	// Generate Districting out of provided population
-	// population -> population cells to generate districts from
-	// width -> number of columns in the population grid
-	// height -> number of rows in the population grid
-	// algorithm -> algorithm to use: (1) Majority   (2) Balanced   (Default/0) Lean
-	// args -> arguments to pass to targeting algorithm
+	/// <summary>
+	/// Creates mapping of districts for a given population cell grid
+	/// </summary>
+	/// <param name="population"> vector of population cells</param>
+	/// <param name="width"> number of columns in the population cell grid</param>
+	/// <param name="height"> number of rows in the population cell grid</param>
+	/// <param name="algorithm"> equal to 1 selects targeting algorithm, anything not equal to 1 selcets the lean algorithm</param>
+	/// <param name="args"> only relevant to targeting algorithm; specifies party to target</param>
 	Districting(std::vector<PopulationCell> population, unsigned int width, unsigned int height, int algorithm = 0, std::string args = "");
 
 	// Returns a vetor of all districts in this districting
@@ -53,6 +55,16 @@ public:
 	// Returns number of voters in this districting
 	unsigned int getNumOfVoters();
 };
-
+/// <summary>
+/// Outputs formatted print of the district IDs of each member in the grid to the console.
+/// </summary>
+/// <param name="grid"> vector of IDs in grid</param>
+/// <param name="num_rows"> number of rows in the grid</param>
+/// <param name="num_cols"> number of columns in the grid</param>
 void printDistrictIDGrid(std::vector<unsigned int> grid, unsigned int num_rows, unsigned int num_cols);
+/// <summary>
+/// Prints the tally of districts and voters affiliated with each party in the districting
+/// </summary>
+/// <param name="districting_algorithm"> districting to print</param>
+void printAlgorithmResults(Districting districting_algorithm);
 #endif

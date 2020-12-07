@@ -3,8 +3,6 @@
 
 #include "Voter.h"
 #include <sstream>
-#include <vector>
-#include <string>
 #include <map>
 
 class District {
@@ -20,7 +18,7 @@ private:
 	unsigned int first_party_count = 0;
 	// Code for party with second most votes
 	std::string second_party_code = VOTER_AFFILIATION_UNDECIDED;
-	// Number of voters affiliated with minor party
+	// Number of voters affiliated with the second most popular party
 	unsigned int second_party_count = 0;
 	// Map of parties to their respective count
 	std::map<std::string, unsigned int> affiliation_counts;
@@ -39,9 +37,9 @@ public:
 	unsigned int getNumberOfVoters();
 	// Returns popular affiliation of voters in district
 	std::string lean();
-	// Returns majority count
+	// Returns most popular party's voter count
 	unsigned int firstPartyCount();
-	// Returns minority count
+	// Returns second most popular party's voter count
 	unsigned int secondPartyCount();
 	// Returns vector of voters in this district
 	std::vector<Voter> getVoters();

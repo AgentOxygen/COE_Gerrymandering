@@ -4,8 +4,6 @@
 #include <vector>
 
 const std::string VOTER_AFFILIATION_UNDECIDED = "U";
-const std::string VOTER_AFFILIATION_A = "A";
-const std::string VOTER_AFFILIATION_B = "B";
 
 class Voter {
 private:
@@ -14,6 +12,11 @@ private:
 	// Voter ID
 	int id;
 public:
+	/// <summary>
+	/// Stores voter ID and affiliation
+	/// </summary>
+	/// <param name="party_affiliation_code"> Code of party that this voter is affiliated with</param>
+	/// <param name="unique_id"> The unique ID of this voter</param>
 	Voter(std::string party_affiliation_code, int unique_id);
 	// Returns ID of voter
 	int getID();

@@ -26,6 +26,7 @@ int main() {
 	printDistrictIDGrid(leanAlgorithm.getDistricting(), num_rows, num_cols);
 	std::cout << std::endl;
 
+
 	outputPopulationGridSize(pop, num_rows, num_cols);
 	leanAlgorithm.outputDistricting("lean");
 	targetAlgorithm.outputDistricting("target");

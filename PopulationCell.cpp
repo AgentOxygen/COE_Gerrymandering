@@ -1,7 +1,6 @@
 #include "PopulationCell.h"
 
 PopulationCell::PopulationCell(unsigned int size, std::vector<std::string> parties, int& latest_ID) {
-	std::vector<Voter> voters;
 	voters.reserve(size);
 	// Add other voters randomly
 	for (unsigned int index = 0; voters.size() <= size; index++) {
@@ -9,13 +8,12 @@ PopulationCell::PopulationCell(unsigned int size, std::vector<std::string> parti
 		Voter voter(parties[std::rand() % parties.size()], latest_ID);
 		voters.push_back(voter);
 	}
-	updateStats(voters);
+	updateStats();
 }
-PopulationCell::PopulationCell(std::vector<Voter>& initial_voters) {
-	updateStats(initial_voters);
+PopulationCell::PopulationCell(std::vector<Voter>& initial_voters) : voters(initial_voters) {
+	updateStats();
 }
-void PopulationCell::updateStats(std::vector<Voter>& voters_) {
-	voters = voters_;
+void PopulationCell::updateStats() {
 	for (auto& voter : voters) {
 		counts[voter.getAffiliationCode()] += 1;
 		size++;

@@ -160,7 +160,7 @@ to the following:
     std::cout << "====== Target Algorithm ======" << std::endl;
     printAlgorithmResults(targetAlgorithm);
 
-![Console output from source code above]("consoleOutputComplete".png)
+![Console output from source code above](consoleOutputComplete.png)
 
 # Code Overview
 
@@ -405,7 +405,7 @@ more information on how these population cells are created.
 ## Urban Center {#sec:UrbanCenter}
 
 ![Population distribution produced by \"Urban
-Center\"]("urbancenterPop".png)
+Center\"](urbancenterPop.png)
 
 While the first algorithm is simple, it is very unrealistic. Most
 population distributions are not uniformly random, but instead focused
@@ -482,7 +482,7 @@ districts.
 For the demonstrations, we will use the following population
 distribution:
 
-![image]("AlgorithmDemo".png)
+![image](AlgorithmDemo.png)
 
 ## Lean {#sec:LeanAlgo}
 
@@ -534,7 +534,7 @@ cell must be a new district.
     }
 
 ![Districting results produced by the Lean
-Algorithm]("consoleOutputAlgoInfo".png)
+Algorithm](consoleOutputAlgoInfo.png)
 
 ## Targeting {#sec:TargetAlgo}
 
@@ -579,9 +579,9 @@ districts. This is because targeted affiliations will not be organized
 into districts in order to increase the representation of that
 affiliation.
 
-![Districting produced by the Target Algorithm]("leanDistricts".png)
+![Districting produced by the Target Algorithm](leanDistricts.png)
 
-![Districting produced by the Target Algorithm]("targetDistricts".png)
+![Districting produced by the Target Algorithm](targetDistricts.png)
 
 # Tests
 
@@ -618,7 +618,7 @@ voters.
 When creating these voter, we disregard the \"VoterID\" field as 0 for
 all voters for simplicity since we will not need it for this analysis.
 
-![Test 0 Results]("Test0".png)
+![Test 0 Results](Test0.png)
 
 The lean algorithm appropriately balances the two parties according to
 their voter representation. The result reflects the population. The
@@ -651,7 +651,7 @@ cell and change the party distribution to 75% Republic and 25% Democrat.
     unsigned int max_population = 10;
     std::vector<std::string> parties = { "R", "R", "R", "D"};
 
-![Test 2 Results]("Test2".png)
+![Test 2 Results](Test2.png)
 
 In this case, the lean algorithm fails to balance the districts
 according to the distribution of voters. The targeting algorithm
@@ -674,7 +674,7 @@ purpose of the PopulationCell class and is not a viable solution.
     unsigned int max_population = 10000;
     std::vector<std::string> parties = { "R", "R", "R", "D"};
 
-![Test 3 Results]("Test3".png)
+![Test 3 Results](Test3.png)
 
 By reducing the fidelity, we effectively render the parties distribution
 obsolete. The algorithms work based on the leans of individual cells and

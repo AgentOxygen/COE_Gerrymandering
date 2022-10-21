@@ -5,6 +5,8 @@ date: December 2020
 title: COE 322 Redistricting Project
 ---
 
+## Disclaimer: This document was originally written in LaTeX and was converted to markdown using pandoc for use in this README. Thus, it has a lot of formatting errors. To see the original version of the report on this project, without the errors, see `Final_Report.pdf`.
+
 # Introduction
 
 Drawing districts in the United States has remained a contentious issue
